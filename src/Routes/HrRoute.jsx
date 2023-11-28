@@ -2,6 +2,7 @@
 import { Navigate, useLocation } from "react-router-dom";
 import useAuth from "../Hooks/useAuth";
 import useHr from "../Hooks/useHr";
+import Loading from "../Shared/Loading";
 
 const HrRoute = ({children}) => {
    const [isHr, isHrLoading] = useHr()
@@ -9,7 +10,7 @@ const HrRoute = ({children}) => {
    const location = useLocation();
 
    if(loading || isHrLoading) {
-      return <p>Loading .... Admin</p>
+      return <Loading />
    }
    if(user && isHr){
       return children;

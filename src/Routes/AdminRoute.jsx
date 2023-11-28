@@ -2,6 +2,7 @@
 import { Navigate, useLocation } from "react-router-dom";
 import useAuth from "../Hooks/useAuth";
 import useAdmin from "../Hooks/useAdmin";
+import Loading from "../Shared/Loading";
 
 const AdminRoute = ({children}) => {
    const [isAdmin, isAdminLoading] = useAdmin();
@@ -9,7 +10,7 @@ const AdminRoute = ({children}) => {
    const location = useLocation();
 
    if(loading || isAdminLoading) {
-      return <p>Loading .... Admin</p>
+      return <Loading />
    }
    if(user && isAdmin){
       return children;

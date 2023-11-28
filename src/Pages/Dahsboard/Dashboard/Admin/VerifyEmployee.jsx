@@ -5,7 +5,8 @@ import { GiCampfire } from "react-icons/gi";
 
 const VerifyEmployee = () => {
   const [users] = useAllUser();
-  console.log(users);
+  const verified = users?.filter(us => us.isPending === true);
+  console.log(verified);
 
   return (
     <div className="overflow-x-auto">
@@ -28,16 +29,26 @@ const VerifyEmployee = () => {
           </tr>
         </thead>
         <tbody>
-          {users?.map((user, idx) => (
+          {verified?.map((user, idx) => (
             <tr key={user._id}>
               <th>{idx + 1}</th>
               <td>{user.name}</td>
               <td>{user.designation}</td>
+              <td className="uppercase">{user.role}</td>
               <td>
-                {user.role}
+                <button disabled={user.role === "hr"}>
+                  {user.role === "hr" ? (
+                    <RiAdminFill className="text-2xl text-blue-600 " />
+                  ) : (
+                    <FaUserCheck className="text-2xl " />
+                  )}
+                </button>
               </td>
-              <td><button>{user.role === "hr" ? <RiAdminFill className="text-2xl " /> : <FaUserCheck className="text-2xl " />}</button></td>
-              <td><button><GiCampfire className="text-3xl text-rose-900 " /></button></td>
+              <td>
+                <button>
+                  <GiCampfire className="text-3xl text-rose-900 " />
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>

@@ -46,10 +46,9 @@ const Register = () => {
         isPending,
       };
       createUser(email, password)
-        .then(async (res) => {
-          const user = await axiosPublic.post("/users", userInfo);
-          console.log(user.data);
-          console.log(res.user);
+        .then(async () => {
+          await axiosPublic.post("/users", userInfo);
+          
           updateUser(name, image)
             .then(() => {
               console.log("profile is updated!");

@@ -5,36 +5,24 @@ import useHr from "../../../Hooks/useHr";
 const Dashboard = () => {
   const [isAdmin] = useAdmin();
   const [isHr] = useHr();
-  console.log(isHr);
-  console.log(isAdmin);
+  // console.log(isHr);
+  // console.log(isAdmin);
 
   return (
-    <div className="container min-h-screen mx-auto gap-6 grid grid-cols-5">
-      <div className="col-span-1 border bg-gray-200 p-10 ">
+    <div className="container min-h-screen mx-auto gap-6 grid grid-cols-8">
+      <div className="col-span-2 border bg-gray-200 p-10 ">
         {isAdmin ? (
           <ul className="space-y-2">
             <li>
               <NavLink
-                to="/"
+                to="/dashboard/profile"
                 className={({ isActive }) =>
                   isActive
                     ? "text-red-800 font-semibold text-lg uppercase"
                     : " font-semibold text-lg uppercase"
                 }
               >
-                Home
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/dashboard"
-                className={({ isActive }) =>
-                  isActive
-                    ? "text-red-800 font-semibold text-lg uppercase"
-                    : " font-semibold text-lg uppercase"
-                }
-              >
-                Admin Dashboard
+                Admin Profile
               </NavLink>
             </li>
             <li>
@@ -46,14 +34,80 @@ const Dashboard = () => {
                     : " font-semibold text-lg uppercase"
                 }
               >
-                Verify User
+                Verify Employee
               </NavLink>
             </li>
           </ul>
-        ) :
-        isHr ?
-        (
+        ) : isHr ? (
           <ul className="space-y-2">
+            
+            <li>
+              <NavLink
+                to="/dashboard/profile"
+                className={({ isActive }) =>
+                  isActive
+                    ? "text-red-800 font-semibold text-lg uppercase"
+                    : " font-semibold text-lg uppercase"
+                }
+              >
+                HR Profile
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/dashboard/user"
+                className={({ isActive }) =>
+                  isActive
+                    ? "text-red-800 font-semibold text-lg uppercase"
+                    : " font-semibold text-lg uppercase"
+                }
+              >
+                Employee List
+              </NavLink>
+            </li>
+          </ul>
+        ) : (
+          <ul className="space-y-2">
+            <li>
+              <NavLink
+                to="/dashboard/profile"
+                className={({ isActive }) =>
+                  isActive
+                    ? "text-red-800 font-semibold text-lg uppercase"
+                    : " font-semibold text-lg uppercase"
+                }
+              >
+                Profile
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/dashboard/paymentHistory"
+                className={({ isActive }) =>
+                  isActive
+                    ? "text-red-800 font-semibold text-lg uppercase"
+                    : " font-semibold text-lg uppercase"
+                }
+              >
+                Payment History
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/dashboard/workSheet"
+                className={({ isActive }) =>
+                  isActive
+                    ? "text-red-800 font-semibold text-lg uppercase"
+                    : " font-semibold text-lg uppercase"
+                }
+              >
+                Work Sheet
+              </NavLink>
+            </li>
+          </ul>
+        )}
+        <hr className="border border-stone-800 my-5" />
+        <ul>
           <li>
             <NavLink
               to="/"
@@ -66,64 +120,9 @@ const Dashboard = () => {
               Home
             </NavLink>
           </li>
-          <li>
-            <NavLink
-              to="/dashboard"
-              className={({ isActive }) =>
-                isActive
-                  ? "text-red-800 font-semibold text-lg uppercase"
-                  : " font-semibold text-lg uppercase"
-              }
-            >
-               HR
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/dashboard/user"
-              className={({ isActive }) =>
-                isActive
-                  ? "text-red-800 font-semibold text-lg uppercase"
-                  : " font-semibold text-lg uppercase"
-              }
-            >
-              All Employee
-            </NavLink>
-          </li>
         </ul>
-        )
-        :
-        (
-          <ul className="space-y-2">
-            <li>
-              <NavLink
-                to="/"
-                className={({ isActive }) =>
-                  isActive
-                    ? "text-red-800 font-semibold text-lg uppercase"
-                    : " font-semibold text-lg uppercase"
-                }
-              >
-                Home
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/dashboard"
-                className={({ isActive }) =>
-                  isActive
-                    ? "text-red-800 font-semibold text-lg uppercase"
-                    : " font-semibold text-lg uppercase"
-                }
-              >
-                Dashboard
-              </NavLink>
-            </li>
-            
-          </ul>
-        )}
       </div>
-      <div className="col-span-4 border p-10">
+      <div className="col-span-6 border p-10">
         <Outlet />
       </div>
     </div>

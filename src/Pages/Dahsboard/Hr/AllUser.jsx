@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 const AllUser = () => {
   const [users] = useAllUser();
-  const employee = users.filter(user => user.role === "employee");
+  const employee = users?.filter((user) => user.role === "employee");
   console.log(employee);
 
   return (
@@ -38,17 +38,19 @@ const AllUser = () => {
               <td>{user.name}</td>
               <td>{user.email}</td>
               <td>
-                {user.isPending ? (
-                  <MdVerified className="text-green-600 text-lg" />
-                ) : (
-                  <ImCross className="text-rose-600 text-lg" />
-                )}
+                <button disabled={user.isPending}>
+                  {user.isPending ? (
+                    <MdVerified className="text-green-600 text-2xl" />
+                  ) : (
+                    <ImCross className="text-rose-600 text-2xl" />
+                  )}
+                </button>
               </td>
               <td>{user.bank_account}</td>
               <td>${user.salary}</td>
               <td>
                 <button
-                  // disabled={!user?.isPending}
+                  disabled={!user?.isPending}
                   className="btn btn-sm btn-outline rounded-none"
                   onClick={() =>
                     document.getElementById("my_modal_5").showModal()

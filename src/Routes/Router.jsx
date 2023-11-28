@@ -12,10 +12,14 @@ import AllUser from "../Pages/Dahsboard/Hr/AllUser";
 import UserDetails from "../Pages/Dahsboard/Hr/UserDetails";
 import AdminRoute from "./AdminRoute";
 import HrRoute from "./HrRoute";
+import PaymentHistory from "../Pages/Dahsboard/UserDashboard/PaymentHistory";
+import WorkSheet from "../Pages/Dahsboard/UserDashboard/WorkSheet";
+import ErrorPage from "../Pages/ErrorPage/ErrorPage";
 
 const router = createBrowserRouter([
   {
     path: "/",
+    errorElement: <ErrorPage />,
     element: <Layout />,
     children: [
       {
@@ -38,6 +42,7 @@ const router = createBrowserRouter([
   },
   {
     path: "dashboard",
+    errorElement: <ErrorPage />,
     element: (
       <PrivetRouter>
         <Dashboard />
@@ -45,8 +50,16 @@ const router = createBrowserRouter([
     ),
     children: [
       {
-        index: true,
+        path: "profile",
         element: <UserDashboard />,
+      },
+      {
+        path: "paymentHistory",
+        element: <PaymentHistory />
+      },
+      {
+        path: "workSheet",
+        element: <WorkSheet />
       },
       {
         path: "user",
@@ -58,7 +71,11 @@ const router = createBrowserRouter([
       },
       {
         path: "user/:email",
-        element: <UserDetails />,
+        element: (
+          <HrRoute>
+            <UserDetails />
+          </HrRoute>
+        ),
       },
       {
         path: "verifyEmployee",

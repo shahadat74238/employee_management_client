@@ -3,17 +3,17 @@ import useAuth from "../../Hooks/useAuth";
 import logo from "../../assets/logo.png";
 
 const Navbar = () => {
-  const {user, logOut} = useAuth()
+  const { user, logOut } = useAuth();
 
   const handleLogout = () => {
     logOut()
-    .then(()=>{
-      console.log("SuccessFully Logged Out !");
-    })
-    .catch(error => {
-      console.log(error.message);
-    })
-  }
+      .then(() => {
+        console.log("SuccessFully Logged Out !");
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
 
   const navLinks = (
     <>
@@ -31,7 +31,7 @@ const Navbar = () => {
       </li>
       <li>
         <NavLink
-          to="/dashboard"
+          to="/dashboard/profile"
           className={({ isActive }) =>
             isActive
               ? "text-red-800 font-semibold text-lg uppercase"
@@ -53,10 +53,8 @@ const Navbar = () => {
           About
         </NavLink>
       </li>
-      
     </>
   );
-
 
   return (
     <div className="bg-base-100 w-full shadow-lg ">
@@ -90,16 +88,18 @@ const Navbar = () => {
           <Link to="/" className="flex gap-2 items-center">
             <img className="md:h-12 h-5" src={logo} alt="Loading Logo" />
             <div className="text-center">
-            <p
-              style={{ letterSpacing: "3px" }}
-              className="md:text-2xl font-semibold uppercase"
-            >
-              Employee
-            </p>
-            <p
-             style={{ letterSpacing: "4px" }}
-             className="text-sm font-semibold uppercase"
-            >Management</p>
+              <p
+                style={{ letterSpacing: "3px" }}
+                className="md:text-2xl font-semibold uppercase"
+              >
+                Employee
+              </p>
+              <p
+                style={{ letterSpacing: "4px" }}
+                className="text-sm font-semibold uppercase"
+              >
+                Management
+              </p>
             </div>
           </Link>
         </div>
@@ -128,16 +128,20 @@ const Navbar = () => {
                 <p className="text-xl mb-2 text-center font-semibold ">
                   {user?.displayName ? user?.displayName : "UserName"}
                 </p>
-                <button onClick={handleLogout} className="w-full btn text-lg btn-active   rounded-none">
+                <button
+                  onClick={handleLogout}
+                  className="w-full btn text-lg btn-active   rounded-none"
+                >
                   LogOut
                 </button>
               </ul>
             </div>
           ) : (
-
-          <Link to="/login">
-            <button className="btn btn-outline btn-sm rounded-none">Login</button>
-          </Link>
+            <Link to="/login">
+              <button className="btn btn-outline btn-sm rounded-none">
+                Login
+              </button>
+            </Link>
           )}
         </div>
       </div>
