@@ -43,16 +43,17 @@ const Navbar = () => {
       </li>
       <li>
         <NavLink
-          to="/about"
+          to="/contact"
           className={({ isActive }) =>
             isActive
               ? "text-red-800 font-semibold text-lg uppercase"
               : " font-semibold text-lg uppercase"
           }
         >
-          About
+          Contact
         </NavLink>
       </li>
+      
     </>
   );
 

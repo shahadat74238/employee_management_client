@@ -65,6 +65,18 @@ const Dashboard = () => {
                 Employee List
               </NavLink>
             </li>
+            <li>
+              <NavLink
+                to="/dashboard/progress"
+                className={({ isActive }) =>
+                  isActive
+                    ? "text-red-800 font-semibold text-lg uppercase"
+                    : " font-semibold text-lg uppercase"
+                }
+              >
+                Progress
+              </NavLink>
+            </li>
           </ul>
         ) : (
           <ul className="space-y-2">

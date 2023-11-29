@@ -3,11 +3,18 @@ import { ImCross } from "react-icons/im";
 import { MdVerified } from "react-icons/md";
 import PaymentModal from "./PaymentModal";
 import { Link } from "react-router-dom";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 
 const AllUser = () => {
-  const [users] = useAllUser();
+  const [users, , userReload] = useAllUser();
   const employee = users?.filter((user) => user.role === "employee");
-  console.log(employee);
+  const axiosSecure = useAxiosSecure();
+
+  const handleVerify = async (id) => {
+    const res = await axiosSecure.patch(`/verify/${id}`);
+    console.log(res.data);
+    userReload();
+  };
 
   return (
     <div className="overflow-x-auto">
@@ -38,7 +45,10 @@ const AllUser = () => {
               <td>{user.name}</td>
               <td>{user.email}</td>
               <td>
-                <button disabled={user.isPending}>
+                <button
+                  disabled={user.isPending}
+                  onClick={() => handleVerify(user._id)}
+                >
                   {user.isPending ? (
                     <MdVerified className="text-green-600 text-2xl" />
                   ) : (

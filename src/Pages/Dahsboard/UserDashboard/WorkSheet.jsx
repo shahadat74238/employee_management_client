@@ -1,44 +1,46 @@
 import { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import useAxiosPublic from "../../../Hooks/useAxiosPublic";
-import useWorks from "../../../Hooks/useWorks";
 import Loading from "../../../Shared/Loading";
-import Swal from 'sweetalert2'
+import Swal from "sweetalert2";
+import useAuth from "../../../Hooks/useAuth";
+import useUserWorks from "../../../Hooks/useUserWorks";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 
 const WorkSheet = () => {
-  const axiosPublic = useAxiosPublic();
-  const [works, worksLoading, worksReload] = useWorks();
+  const axiosSecure = useAxiosSecure();
+  const [userWorks, userWorksLoading, userWorksReload] = useUserWorks();
   const [startDate, setStartDate] = useState(new Date());
+  const { user } = useAuth();
 
   const options = {
     year: "numeric",
     month: "short",
     day: "numeric",
   };
-  const date = new Intl.DateTimeFormat("en-US", options).format(
-    startDate
-  );
+  const date = new Intl.DateTimeFormat("en-US", options).format(startDate);
 
-  if(worksLoading){
-    return <Loading />
+  if (userWorksLoading) {
+    return <Loading />;
   }
 
-  const handleSubmit = async(event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const form = event.target;
     const task = form.tasks.value;
     const hoursWorked = form.hoursWorked.value;
-    const work = {task, hoursWorked, date}
-    console.log(work);
-    await axiosPublic.post("/works", work);
+    const userEmail = user?.email;
+    const name = user?.displayName;
+    const work = { name, task, hoursWorked, date, userEmail };
+
+    await axiosSecure.post("/works", work);
     Swal.fire({
       icon: "success",
       title: "Your work has been added !",
       showConfirmButton: false,
-      timer: 2000
+      timer: 2000,
     });
-    worksReload();
+    userWorksReload();
   };
 
   return (
@@ -58,11 +60,13 @@ const WorkSheet = () => {
             Tasks
           </label>
           <select
-          defaultValue="select"
+            defaultValue="select"
             name="tasks"
             className="mt-1 p-2 border  rounded-md "
           >
-            <option disabled value="select">Select Task</option>
+            <option disabled value="select">
+              Select Task
+            </option>
             <option value="Sales">Sales</option>
             <option value="Support">Support</option>
             <option value="Content">Content</option>
@@ -71,9 +75,7 @@ const WorkSheet = () => {
         </div>
 
         <div className="flex-grow">
-          <label
-            className="block text-sm font-medium text-gray-700"
-          >
+          <label className="block text-sm font-medium text-gray-700">
             Hours Worked
           </label>
           <input
@@ -84,9 +86,7 @@ const WorkSheet = () => {
           />
         </div>
         <div className="flex-grow">
-          <label
-            className="block text-sm font-medium text-gray-700"
-          >
+          <label className="block text-sm font-medium text-gray-700">
             Date
           </label>
           <DatePicker
@@ -108,35 +108,43 @@ const WorkSheet = () => {
       </form>
 
       {/* Table */}
-      <div className="overflow-x-auto rounded mt-10">
-        <table className="table table-zebra ">
-          <thead className="bg-gray-200">
-            <tr className="text-black">
-              <th></th>
-              <th>Task</th>
-              <th>Hours</th>
-              <th>Date</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {
-             works?.map((work, idx) => (
-            <tr key={work?._id}>
-              <th>{idx + 1}</th>
-              <td>{work.task}</td>
-              <td>{work.hoursWorked}</td>
-              <td>{work.date}</td>
-              <td>
-                <button className="btn btn-outline rounded btn-sm " >Details</button>
-              </td>
-            </tr>
 
-             )) 
-            }
-          </tbody>
-        </table>
-      </div>
+      {userWorks?.length > 0 ? (
+        <div className="overflow-x-auto rounded mt-10">
+          <table className="table table-zebra ">
+            <thead className="bg-gray-200">
+              <tr className="text-black">
+                <th></th>
+                <th>Task</th>
+                <th>Hours</th>
+                <th>Date</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {userWorks?.map((work, idx) => (
+                <tr key={work?._id}>
+                  <th>{idx + 1}</th>
+                  <td>{work.task}</td>
+                  <td>{work.hoursWorked}</td>
+                  <td>{work.date}</td>
+                  <td>
+                    <button className="btn btn-outline rounded btn-sm ">
+                      Details
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      ) : (
+        <div className="mt-20">
+          <h1 className="text-center font-semibold text-4xl ">
+            No Work Available!
+          </h1>
+        </div>
+      )}
     </div>
   );
 };

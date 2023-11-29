@@ -1,7 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import Layout from "../Components/MainLayout/Layout";
 import Home from "../Pages/Home/Home";
-import About from "../Pages/About/About";
 import Login from "../Pages/Login/Login";
 import Register from "../Pages/Register/Register";
 import Dashboard from "../Pages/Dahsboard/Dashboard/Dashboard";
@@ -15,6 +14,8 @@ import HrRoute from "./HrRoute";
 import PaymentHistory from "../Pages/Dahsboard/UserDashboard/PaymentHistory";
 import WorkSheet from "../Pages/Dahsboard/UserDashboard/WorkSheet";
 import ErrorPage from "../Pages/ErrorPage/ErrorPage";
+import Contact from "../Pages/Contact/Contact";
+import Progress from "../Pages/Dahsboard/Hr/Progress";
 
 const router = createBrowserRouter([
   {
@@ -27,8 +28,8 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "/about",
-        element: <About />,
+        path: "/contact",
+        element: <Contact />,
       },
       {
         path: "/login",
@@ -74,6 +75,14 @@ const router = createBrowserRouter([
         element: (
           <HrRoute>
             <UserDetails />
+          </HrRoute>
+        ),
+      },
+      {
+        path: "progress",
+        element: (
+          <HrRoute>
+            <Progress />
           </HrRoute>
         ),
       },
