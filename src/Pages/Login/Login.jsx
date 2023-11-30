@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../../Hooks/useAuth";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 const Login = () => {
   const { loginUser } = useAuth();
@@ -19,6 +20,7 @@ const Login = () => {
       .then((res) => {
         console.log(res.user);
         navigate(from, { replace: true });
+        toast.success('Successfully Logged!')
       })
       .catch((err) => {
         console.log(err);
@@ -31,7 +33,7 @@ const Login = () => {
       <div className="max-w-7xl mx-auto py-10 justify-center">
         <div className="md:w-2/5 mx-auto px-5 md:px-10 lg:px-0  md:pb-8 rounded-lg">
           <div className="md:px-14 px-8 py-6 rounded-md shadow-xl">
-            <h1 className="font-bold text-2xl text-[#7cb908]">Login</h1>
+            <h1 className="font-bold text-2xl ">Login</h1>
             <form onSubmit={handleLogin}>
               <div>
                 <input
@@ -68,7 +70,7 @@ const Login = () => {
                     Remember Me
                   </label>
                 </div>
-                <p className="text-[#7cb908] underline cursor-pointer">
+                <p className=" underline cursor-pointer">
                   Forgot Password
                 </p>
               </div>
@@ -78,7 +80,7 @@ const Login = () => {
             </form>
             <p className="mt-6 ">
               Don’t have an account?{" "}
-              <Link to="/register" className="text-[#7cb908] underline">
+              <Link to="/register" className=" underline">
                 Register
               </Link>
             </p>

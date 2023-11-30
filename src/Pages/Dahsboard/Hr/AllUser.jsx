@@ -4,16 +4,44 @@ import { MdVerified } from "react-icons/md";
 import PaymentModal from "./PaymentModal";
 import { Link } from "react-router-dom";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import { useState } from "react";
+import Swal from "sweetalert2";
 
 const AllUser = () => {
   const [users, , userReload] = useAllUser();
+  const [salary, setSalary] = useState("");
+  const [employeeEmail, setEmployeeEmail] = useState("");
+  console.log(salary);
   const employee = users?.filter((user) => user.role === "employee");
   const axiosSecure = useAxiosSecure();
 
+  const handelShowModal = (salary, email) => {
+    document.getElementById("my_modal_5").showModal();
+    setSalary(salary);
+    setEmployeeEmail(email);
+  };
+
   const handleVerify = async (id) => {
-    const res = await axiosSecure.patch(`/verify/${id}`);
-    console.log(res.data);
-    userReload();
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be Verify The Employee!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Verify!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const res = await axiosSecure.patch(`/verify/${id}`);
+        console.log(res.data);
+        userReload();
+        Swal.fire({
+          title: "Verified!",
+          text: "Successfully Verified!",
+          icon: "success",
+        });
+      }
+    });
   };
 
   return (
@@ -62,9 +90,7 @@ const AllUser = () => {
                 <button
                   disabled={!user?.isPending}
                   className="btn btn-sm btn-outline rounded-none"
-                  onClick={() =>
-                    document.getElementById("my_modal_5").showModal()
-                  }
+                  onClick={() => handelShowModal(user.salary, user.email)}
                 >
                   Pay
                 </button>
@@ -85,7 +111,7 @@ const AllUser = () => {
           id="my_modal_5"
           className="h-[80vh] w-[80%] modal-bottom sm:modal-middle"
         >
-          <PaymentModal />
+          <PaymentModal salary={salary} email={employeeEmail} />
         </dialog>
       </div>
     </div>

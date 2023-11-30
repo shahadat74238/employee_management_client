@@ -6,12 +6,26 @@ import Swal from "sweetalert2";
 import useAuth from "../../../Hooks/useAuth";
 import useUserWorks from "../../../Hooks/useUserWorks";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import { useQuery } from "@tanstack/react-query";
 
 const WorkSheet = () => {
   const axiosSecure = useAxiosSecure();
   const [userWorks, userWorksLoading, userWorksReload] = useUserWorks();
   const [startDate, setStartDate] = useState(new Date());
   const { user } = useAuth();
+
+  const { data: Verified, isLoading } = useQuery({
+    queryKey: ["Verified", user.email],
+    queryFn: async () => {
+      const res = await axiosSecure.get(`/user?email=${user.email}`);
+      return res?.data;
+    },
+  });
+  if (isLoading) {
+    return <p>Loading..</p>;
+  }
+
+  console.log(Verified.isPending);
 
   const options = {
     year: "numeric",
@@ -51,7 +65,11 @@ const WorkSheet = () => {
         </h1>
         <hr className="w-24 border border-slate-950 mx-auto mt-2 mb-5 " />
       </div>
-      <form onSubmit={handleSubmit} className="flex gap-4">
+
+        {
+          Verified?.isPending ?
+          <>
+           <form onSubmit={handleSubmit} className="flex gap-4">
         <div className="flex-grow">
           <label
             htmlFor="tasks"
@@ -145,6 +163,14 @@ const WorkSheet = () => {
           </h1>
         </div>
       )}
+          </>
+          :
+          <div className="flex justify-center items-center h-full">
+            <h1 className="text-3xl font-bold text-red-900">You Are Unverified Employee!</h1>
+          </div>
+        }
+
+     
     </div>
   );
 };

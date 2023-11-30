@@ -1,34 +1,52 @@
+import { useEffect, useState } from "react";
 import useWorks from "../../../Hooks/useWorks";
+import { useQuery } from "@tanstack/react-query";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 
 const Progress = () => {
-  const [works] = useWorks();
-  console.log(works);
+  const [filter, setFilter] = useState({});
+  const [works, , worksReload] = useWorks(filter);
+  const [name, setName] = useState("");
+  const [month, setMonth] = useState("");
+  const axiosSecure = useAxiosSecure();
+
   const months = [
-    "January",
-    "February",
-    "March",
-    "April",
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
     "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
   ];
 
-  const handleFilter =(e) => {
-    e.preventDefault();
-    const form = e.target;
-    const name = form.name.value;
-    const month = form.month.value;
-    console.log(name, month);
+  const handleFilter = () => {
+    const filterData = { name, month };
+    setFilter(filterData);
   };
+  useEffect(() => {
+    worksReload();
+  }, [filter, worksReload]);
+
+  const { data: dropdownName, isLoading: nameLoading } = useQuery({
+    queryKey: ["dropdownName"],
+    queryFn: async () => {
+      const res = await axiosSecure.get("/drop");
+      return res.data;
+    },
+  });
+  if (nameLoading) {
+    return <p>Loading..</p>;
+  }
 
   return (
     <div>
-      <div>
+      <div className="mb-10">
         <h1 className="uppercase text-2xl font-semibold text-center ">
           Progress Report
         </h1>
@@ -36,45 +54,50 @@ const Progress = () => {
       </div>
       <div>
         <h1 className="text-lg font-semibold">Filter Work List</h1>
-        <form onSubmit={handleFilter}>
-          <div className="flex gap-10">
-            <div>
-              <select
+        <div className="flex gap-10">
+          <div>
+            <select
               name="name"
-                defaultValue="name"
-                className=" outline-none border-b-2 w-32 p-2 font-medium  border-[#706b6b] "
-              >
-                <option disabled value="name">
-                  Name
+              onChange={(e) => setName(e.target.value)}
+              defaultValue="name"
+              className=" outline-none border-b-2 w-32 p-2 font-medium  border-[#706b6b] "
+            >
+              <option disabled value="name">
+                Name
+              </option>
+              {dropdownName?.map((n) => (
+                <option key={n} value={n}>
+                  {n}
                 </option>
-                {works?.map((w) => (
-                  <option key={w._id} value={w.name}>
-                    {w.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div>
-              <select
-              name="month"
-                defaultValue="month"
-                className=" outline-none border-b-2 w-32 p-2 font-medium  border-[#706b6b] "
-              >
-                <option disabled value="month">
-                  Month
-                </option>
-                {months?.map((m) => (
-                  <option key={m} value={m}>
-                    {m}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div>
-              <input className="text-lg font-semibold cursor-pointer btn-sm  btn-outline btn rounded" type="submit" value="Filter" />
-            </div>
+              ))}
+            </select>
           </div>
-        </form>
+          <div>
+            <select
+              name="month"
+              onChange={(e) => setMonth(e.target.value)}
+              defaultValue="month"
+              className=" outline-none border-b-2 w-32 p-2 font-medium  border-[#706b6b] "
+            >
+              <option disabled value="month">
+                Month
+              </option>
+              {months?.map((m) => (
+                <option key={m} value={m}>
+                  {m}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <button
+              onClick={handleFilter}
+              className="text-lg font-semibold cursor-pointer btn-sm  btn-outline btn rounded"
+            >
+              Filter
+            </button>
+          </div>
+        </div>
       </div>
       <div>
         {works?.length > 0 ? (

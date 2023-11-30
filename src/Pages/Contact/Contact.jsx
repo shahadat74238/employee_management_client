@@ -26,7 +26,7 @@ const Contact = () => {
             </div>
           </div>
           <div className="bg-[#f5f5f5] p-5">
-            <h1 className="text-[#7cb908] uppercase font-bold text-lg">
+            <h1 className=" uppercase font-bold text-lg">
               Send Message
             </h1>
             <form onSubmit={handleSubmit}>
@@ -63,7 +63,7 @@ const Contact = () => {
                 />
               </div>
               <div className="mt-8">
-                <button className="h-10 w-36 bg-[#7cb908] text-white font-semibold rounded hover:bg-white hover:text-[#7cb908] uppercase hover:border hover:border-[#7cb908] text-sm">
+                <button className="btn btn-outline rounded-none text-lg font-semibold uppercase">
                   send
                 </button>
               </div>

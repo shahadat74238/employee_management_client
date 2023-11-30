@@ -53,7 +53,7 @@ const Register = () => {
             .then(() => {
               console.log("profile is updated!");
               navigate("/");
-              // window.location.reload();
+              toast.success('Successfully Registered!')
             })
             .catch((err) => {
               console.log(err.message);
@@ -70,7 +70,7 @@ const Register = () => {
       <div className="max-w-7xl  mx-auto py-10 items-center justify-center ">
         <div className="md:w-2/5 mx-auto px-5 md:px-10 lg:px-0  md:pb-8 rounded-lg">
           <div className="md:px-14 px-8 py-6 rounded-md shadow-xl">
-            <h1 className="font-bold text-2xl text-[#7cb908]">
+            <h1 className="font-bold text-2xl">
               Create an Account
             </h1>
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -189,7 +189,7 @@ const Register = () => {
             </form>
             <p className="mt-6 text-center">
               Already have an account?
-              <Link to="/login" className="text-[#7cb908] ml-2 underline">
+              <Link to="/login" className=" ml-2 underline">
                 Login
               </Link>
             </p>

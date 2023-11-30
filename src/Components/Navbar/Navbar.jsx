@@ -1,6 +1,7 @@
 import { Link, NavLink } from "react-router-dom";
 import useAuth from "../../Hooks/useAuth";
 import logo from "../../assets/logo.png";
+import toast from "react-hot-toast";
 
 const Navbar = () => {
   const { user, logOut } = useAuth();
@@ -8,7 +9,7 @@ const Navbar = () => {
   const handleLogout = () => {
     logOut()
       .then(() => {
-        console.log("SuccessFully Logged Out !");
+        toast.success('SuccessFully Logged Out !')
       })
       .catch((error) => {
         console.log(error.message);

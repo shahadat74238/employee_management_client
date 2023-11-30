@@ -8,7 +8,7 @@ const UserDashboard = () => {
   const { user } = useAuth();
 
   const { data: profile, isLoading } = useQuery({
-    queryKey: ["profile"],
+    queryKey: ["profile", user.email],
     queryFn: async () => {
       const res = await axiosSecure.get(`/user?email=${user.email}`);
       return res?.data;
@@ -48,7 +48,7 @@ const UserDashboard = () => {
               <h1 className=" uppercase font-semibold text-5xl">{profile.role}</h1>
               {profile.role === "employee" && (
                 <div>
-                  {profile.role === "employee" ? (
+                  {profile.isPending ? (
                     <p className="uppercase text-center  text-lg font-semibold text-blue-600 w-32">
                       Verified <MdVerified className="inline text-xl" />
                     </p>

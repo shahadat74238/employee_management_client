@@ -3,62 +3,63 @@ import Chart from "react-apexcharts";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import { useParams } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import useEmployeePayment from "../../../Hooks/useEmployeePayment";
+import Loading from "../../../Shared/Loading";
 
 const UserDetails = () => {
   const { email } = useParams();
+  console.log(email);
   const axiosSecure = useAxiosSecure();
+  const  [payment] = useEmployeePayment(email);
+  const salary = payment?.map(p => p.salary);
+  const month = payment?.map(p => p.month.slice(0,3));
+
+  console.log(salary);
+
   const [state, setState] = useState({
-   options: {
-     chart: {
-       id: "basic-bar"
-     },
-     xaxis: {
-       categories: ["Jan",
-       "Feb",
-       "Mar",
-       "Apr",
-       "May",
-       "June",
-       "July",
-       "Aug",
-       "Sept",
-       "Oct",
-       "Nov",
-       "Dec",]
-     }
-   },
-   yaxis: {
+    options: {
+      chart: {
+        id: "basic-bar",
+      },
+      xaxis: {
+        categories: month,
+      },
+    },
+    yaxis: {
       // Y-axis options...
-      min: 1000,   // Set the minimum value for the Y-axis
+      min: 1000, // Set the minimum value for the Y-axis
       max: 10000, // Set the maximum value for the Y-axis
       title: {
-        text: 'Y-axis Title',
+        text: "Y-axis Title",
         style: {
-          fontSize: '16px',
+          fontSize: "16px",
         },
       },
     },
-   series: [
-     {
-       name: "series-1",
-       data: [5000, 6000, 4500]
-     },
-     
-   ]
- }
-)
+    series: [
+      {
+        name: "Salary",
+        data: salary,
+      },
+    ],
+  });
 
-  const { data: employee, isLoading } = useQuery({
-    queryKey: ["employee"],
+ 
+
+  const { data: employee, isLoading:employeeLoading, } = useQuery({
+    queryKey: ["employee", email],
     queryFn: async () => {
       const res = await axiosSecure.get(`/user?email=${email}`);
       return res.data;
     },
   });
-  if (isLoading) {
-    return <p>Loading..</p>;
+
+  if (employeeLoading) {
+    return <Loading />;
   }
+  console.log(employee);
+  
 
   return (
     <div>
@@ -86,13 +87,13 @@ const UserDetails = () => {
           </div>
         </div>
         <div className="border-2 p-5">
-        <Chart
-              options={state.options}
-              series={state.series}
-              type="area"
-              width="400"
-              height="300"
-            />
+          <Chart
+            options={state.options}
+            series={state.series}
+            type="area"
+            width="400"
+            height="300"
+          />
         </div>
       </div>
     </div>

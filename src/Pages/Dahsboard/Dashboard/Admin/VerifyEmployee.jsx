@@ -3,6 +3,7 @@ import { FaUserCheck } from "react-icons/fa";
 import { RiAdminFill } from "react-icons/ri";
 import { GiCampfire } from "react-icons/gi";
 import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
+import Swal from "sweetalert2";
 
 const VerifyEmployee = () => {
   const axiosSecure = useAxiosSecure();
@@ -10,15 +11,49 @@ const VerifyEmployee = () => {
   const verified = users?.filter((us) => us.isPending === true);
 
   const handelUpdateRole = async (id) => {
-    const res = await axiosSecure.patch(`/hr/${id}`);
-    console.log(res.data);
-    userReload();
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be Make HR!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Make HR!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const res = await axiosSecure.patch(`/hr/${id}`);
+        console.log(res.data);
+        userReload();
+        Swal.fire({
+          title: "Make HR!",
+          text: "Successfully Make Hr!",
+          icon: "success",
+        });
+      }
+    });
   };
 
   const handleDeleteUser = async (id) => {
-    const res = await axiosSecure.delete(`/users/${id}`);
-    console.log(res.data);
-    userReload();
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be Fire!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Fire!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const res = await axiosSecure.delete(`/users/${id}`);
+        console.log(res.data);
+        userReload();
+        Swal.fire({
+          title: "Fired!",
+          text: "Successfully Fired!",
+          icon: "success",
+        });
+      }
+    });
   };
 
   return (
@@ -70,10 +105,11 @@ const VerifyEmployee = () => {
             ))}
           </tbody>
         </table>
-        
       ) : (
         <div className="mt-20">
-          <h1 className="text-center font-semibold text-4xl ">No Verified Employee Available!</h1>
+          <h1 className="text-center font-semibold text-4xl ">
+            No Verified Employee Available!
+          </h1>
         </div>
       )}
     </div>
