@@ -13,8 +13,6 @@ const CheckOutForm = ({ salary, email }) => {
   const [clientSecret, setClientSecret] = useState("");
   const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
-  
-
 
   const currentYear = new Date().getFullYear();
   const startYear = currentYear - 3;
@@ -52,9 +50,7 @@ const CheckOutForm = ({ salary, email }) => {
     event.preventDefault();
     const form = event.target;
     const month = form.month.value;
-    const year = form.year.value
-   
-
+    const year = form.year.value;
 
     if (!stripe || !elements) {
       return;
@@ -90,7 +86,7 @@ const CheckOutForm = ({ salary, email }) => {
     } else {
       console.log(paymentIntent);
       if (paymentIntent.status === "succeeded") {
-        setSuccess('Successfully Payment!');
+        setSuccess("Successfully Payment!");
         console.log(paymentIntent.id);
         const payInfo = {
           month: month,
@@ -99,10 +95,9 @@ const CheckOutForm = ({ salary, email }) => {
           transaction_id: paymentIntent.id,
           employee_email: email,
         };
-        console.log(payInfo);
+        // console.log(payInfo);
 
-        const res = await axiosSecure.post("/paySalary", payInfo);
-        console.log(res.data);
+        await axiosSecure.post("/paySalary", payInfo);
       }
     }
   };
@@ -121,10 +116,13 @@ const CheckOutForm = ({ salary, email }) => {
             <p className="text-xl font-semibold uppercase text-center mb-2">
               Month
             </p>
-            <select required defaultValue="January" name="month" className="border p-2 cursor-pointer">
-              <option>
-                Selected Year
-              </option>
+            <select
+              required
+              defaultValue="January"
+              name="month"
+              className="border p-2 cursor-pointer"
+            >
+              <option>Selected Year</option>
               {months.map((month, index) => (
                 <option key={index} value={month}>
                   {month}
@@ -136,10 +134,13 @@ const CheckOutForm = ({ salary, email }) => {
             <p className="text-xl font-semibold uppercase text-center  mb-2">
               Year
             </p>
-            <select required defaultValue='2023' name="year" className="border p-2 cursor-pointer">
-              <option disabled>
-                Select a year
-              </option>
+            <select
+              required
+              defaultValue="2023"
+              name="year"
+              className="border p-2 cursor-pointer"
+            >
+              <option disabled>Select a year</option>
               {years.map((year) => (
                 <option key={year} value={year}>
                   {year}

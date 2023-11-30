@@ -11,7 +11,6 @@ const AllUser = () => {
   const [users, , userReload] = useAllUser();
   const [salary, setSalary] = useState("");
   const [employeeEmail, setEmployeeEmail] = useState("");
-  console.log(salary);
   const employee = users?.filter((user) => user.role === "employee");
   const axiosSecure = useAxiosSecure();
 
