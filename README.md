@@ -28,5 +28,5 @@ Employee management involves the effective oversight, coordination, and developm
 - Develop a comprehensive leave management system that allows employees to request and manage their leaves, and HR to efficiently track and approve leave requests.
 
 
-## [Employee Management](https://employee-management-1d531.web.app/)
-https://employee-management-1d531.web.app/
+## [Employee Management](https://site-employee-management.netlify.app/)
+https://site-employee-management.netlify.app/

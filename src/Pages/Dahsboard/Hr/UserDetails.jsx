@@ -3,7 +3,7 @@ import Chart from "react-apexcharts";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import useEmployeePayment from "../../../Hooks/useEmployeePayment";
 import Loading from "../../../Shared/Loading";
 
