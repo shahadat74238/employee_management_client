@@ -16,6 +16,7 @@ import WorkSheet from "../Pages/Dahsboard/UserDashboard/WorkSheet";
 import ErrorPage from "../Pages/ErrorPage/ErrorPage";
 import Contact from "../Pages/Contact/Contact";
 import Progress from "../Pages/Dahsboard/Hr/Progress";
+import About from "../Pages/About/About";
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
       {
         path: "/contact",
         element: <Contact />,
+      },
+      {
+        path: "/about",
+        element: <About />,
       },
       {
         path: "/login",
